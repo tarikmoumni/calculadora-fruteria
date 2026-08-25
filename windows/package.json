@@ -1,0 +1,22 @@
+{
+  "name": "calculadora-fruteria-pc",
+  "version": "1.0.0",
+  "description": "Calculadora de precios de Frutas y Verduras Moumni",
+  "main": "main.js",
+  "author": "Tarik Moumni",
+  "license": "MIT",
+  "scripts": {
+    "dist": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.moumni.calculadorafruteria",
+    "productName": "Calculadora Fruteria",
+    "files": ["main.js"],
+    "win": {"target": ["portable"]},
+    "portable": {"artifactName": "Calculadora-Fruteria-PC.exe"}
+  }
+}
