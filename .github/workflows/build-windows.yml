@@ -1,0 +1,37 @@
+name: Build Windows EXE
+
+on:
+  push:
+    paths:
+      - 'windows/**'
+      - '.github/workflows/build-windows.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        working-directory: windows
+        run: npm install
+      - name: Build portable EXE
+        working-directory: windows
+        run: npm run dist
+      - name: Copy EXE to repository root
+        shell: powershell
+        run: Copy-Item "windows/dist/Calculadora-Fruteria-PC.exe" "Calculadora-Fruteria-PC.exe" -Force
+      - name: Commit EXE
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Calculadora-Fruteria-PC.exe
+          git diff --cached --quiet || git commit -m "Compilar app Windows"
+          git push
